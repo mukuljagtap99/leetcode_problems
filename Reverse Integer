@@ -1,0 +1,26 @@
+class Solution {
+    public int reverse(int x) {
+        boolean isNegative = x < 0;
+        
+        // Convert x to a string for easier manipulation
+        String str = Integer.toString(Math.abs(x));
+        
+        try {
+            // Reverse the string
+            String reversed = new StringBuilder(str).reverse().toString();
+            
+            // Convert the reversed string back to an integer
+            int result = Integer.parseInt(reversed);
+            
+            // Restore the sign if x was negative
+            if (isNegative) {
+                result *= -1;
+            }
+            
+            return result;
+        } catch (NumberFormatException e) {
+            // If the reversed integer is out of range, return 0
+            return 0;
+        }
+    }
+}
