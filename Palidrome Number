@@ -1,0 +1,19 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+        
+     if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+        
+        int reversed = 0;
+        while (x > reversed) {
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
+        }
+        
+        // If the number of digits in x is odd, we can ignore the middle digit
+        // For example: 12321, after the loop, x = 12 and reversed = 123
+        // For even number of digits, both x and reversed should be equal
+        return x == reversed || x == reversed / 10;
+    }
+}
