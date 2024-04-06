@@ -1,0 +1,41 @@
+class Solution {
+        public String minRemoveToMakeValid(String s) {
+ Stack<Integer> stack = new Stack<>();
+        boolean[] remove = new boolean[s.length()];
+
+        // Iterate through the string
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (c == '(') {
+                // Push index of opening parenthesis onto the stack
+                stack.push(i);
+            } else if (c == ')') {
+                if (!stack.isEmpty()) {
+                    // If there's a matching opening parenthesis, mark both to keep
+                    stack.pop();
+                } else {
+                    // If no matching opening parenthesis, mark this closing parenthesis to remove
+                    remove[i] = true;
+                }
+            }
+        }
+
+        // Mark unmatched opening parentheses to remove
+        while (!stack.isEmpty()) {
+            remove[stack.pop()] = true;
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        // Construct the result string, excluding characters marked for removal
+        for (int i = 0; i < s.length(); i++) {
+            if (!remove[i]) {
+                result.append(s.charAt(i));
+            }
+        }
+
+        return result.toString();
+    }
+
+}
