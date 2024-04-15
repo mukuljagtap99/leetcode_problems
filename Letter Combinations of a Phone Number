@@ -1,0 +1,27 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+            List<String> combinations = new ArrayList<>();
+        if (digits == null || digits.length() == 0)
+            return combinations;
+        
+        String[] mappings = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        backtrack(combinations, digits, mappings, 0, new StringBuilder());
+        return combinations;
+    }
+
+    private void backtrack(List<String> combinations, String digits, String[] mappings, int index, StringBuilder current) {
+        if (index == digits.length()) {
+            combinations.add(current.toString());
+            return;
+        }
+
+        int digit = digits.charAt(index) - '0';
+        String letters = mappings[digit];
+        for (int i = 0; i < letters.length(); i++) {
+            current.append(letters.charAt(i));
+            backtrack(combinations, digits, mappings, index + 1, current);
+            current.deleteCharAt(current.length() - 1);
+        }
+    
+    }
+}
