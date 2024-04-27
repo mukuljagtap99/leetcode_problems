@@ -1,0 +1,43 @@
+class Solution {
+    public int findRotateSteps(String ring, String key) {
+        // Create a map to store the minimum steps for each position of the ring and character of the key
+        Map<String, Integer> memo = new HashMap<>();
+        return findSteps(ring, key, 0, 0, memo);
+    }
+
+    private int findSteps(String ring, String key, int ringIndex, int keyIndex, Map<String, Integer> memo) {
+        // Base case: If all characters of the key are spelled, return 0
+        if (keyIndex == key.length()) {
+            return 0;
+        }
+        
+        // Check if the current state has been memoized
+        String memoKey = ringIndex + "_" + keyIndex;
+        if (memo.containsKey(memoKey)) {
+            return memo.get(memoKey);
+        }
+        
+        // Find the position of the current key character in the ring
+        char targetChar = key.charAt(keyIndex);
+        int minSteps = Integer.MAX_VALUE;
+
+        // Try all possible rotations to align the targetChar with the "12:00" direction
+        for (int i = 0; i < ring.length(); i++) {
+            if (ring.charAt((ringIndex + i) % ring.length()) == targetChar) {
+                // Calculate the steps required for this rotation
+                int steps = 1 + Math.min(i, ring.length() - i);
+                
+                // Recursively find the steps needed to spell the rest of the key
+                int nextSteps = findSteps(ring, key, (ringIndex + i) % ring.length(), keyIndex + 1, memo);
+                
+                // Update the minimum steps
+                minSteps = Math.min(minSteps, steps + nextSteps);
+            }
+        }
+        
+        // Memoize the result
+        memo.put(memoKey, minSteps);
+        
+        return minSteps;
+    }
+}
