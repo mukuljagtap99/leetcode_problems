@@ -1,0 +1,55 @@
+class Solution {
+     List<List<Integer>> graph;
+    int[] count;
+    int[] ans;
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+         graph = new ArrayList<>();
+        count = new int[n];
+        ans = new int[n];
+
+        // Initialize the adjacency list for the tree
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        // Construct the adjacency list
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        // Step 1: Perform DFS from the root (node 0) to compute the counts and answer for each node
+        dfs(0, -1);
+
+        // Step 2: Perform DFS from the root again to update the answer for each node
+        dfs2(0, -1);
+
+        return ans;
+    }
+
+    // Step 1: DFS to compute counts and answer for each node
+    private void dfs(int node, int parent) {
+        count[node] = 1;
+        for (int child : graph.get(node)) {
+            if (child != parent) {
+                dfs(child, node);
+                count[node] += count[child];
+                ans[node] += ans[child] + count[child];
+            }
+        }
+    }
+
+    // Step 2: DFS to update answer for each node
+    private void dfs2(int node, int parent) {
+        for (int child : graph.get(node)) {
+            if (child != parent) {
+                ans[child] = ans[node] - count[child] + (graph.size() - count[child]);
+                dfs2(child, node);
+            }
+        }
+    }
+}
+        
+    
