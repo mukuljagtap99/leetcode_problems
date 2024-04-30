@@ -1,0 +1,30 @@
+class Solution {
+    public long wonderfulSubstrings(String word) {
+          // Initialize an array to count the state occurrences.
+        int[] stateCount = new int[1 << 10]; // 1 << 10 because there are 10 possible characters (a-j).
+        stateCount[0] = 1; // Empty string is a valid starting state.
+        long totalCount = 0; // This will hold the total number of 'wonderful' substrings.
+        int state = 0; // This represents the bitmask state of characters a-j. Each bit represents if a character has an odd or even count.
+
+        // Loop over each character in the string
+        for (char c : word.toCharArray()) {
+            // Toggle the bit corresponding to the character c.
+            state ^= 1 << (c - 'a');
+          
+            // Add the count of the current state to answer.
+            totalCount += stateCount[state];
+          
+            // Try toggling each bit to account for at most one character that can appear an odd number of times.
+            for (int i = 0; i < 10; ++i) {
+                totalCount += stateCount[state ^ (1 << i)];
+            }
+          
+            // Increment the count of the current state.
+            ++stateCount[state];
+        }
+
+        // The total number of wonderful substrings is now calculated in totalCount.
+        return totalCount;
+    
+    }
+}
