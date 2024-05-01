@@ -1,0 +1,28 @@
+class Solution {
+    public String reversePrefix(String word, char ch) {
+      
+      int index = word.indexOf(ch); // Find the index of the first occurrence of ch
+        if (index == -1) {
+            // If ch does not exist in word, return the original word
+            return word;
+        }
+        // Reverse the substring from index 0 to index
+        return reverseString(word.substring(0, index + 1)) + word.substring(index + 1);
+    }
+
+    private String reverseString(String str) {
+        // Convert the string to a character array
+        char[] charArray = str.toCharArray();
+        int left = 0, right = str.length() - 1;
+        // Swap characters from both ends until left pointer is less than right pointer
+        while (left < right) {
+            char temp = charArray[left];
+            charArray[left] = charArray[right];
+            charArray[right] = temp;
+            left++;
+            right--;
+        }
+        // Convert the character array back to a string
+        return new String(charArray);
+    }
+}
