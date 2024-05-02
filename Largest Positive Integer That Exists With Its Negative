@@ -1,0 +1,25 @@
+class Solution {
+    public int findMaxK(int[] nums) {
+    	    // Initialize the variable to store the maximum integer k where both k and -k exist in the array
+        int maxK = -1;
+        // Use a HashSet to store the elements for constant time look-up
+        Set<Integer> numSet = new HashSet<>();
+
+        // Add all the elements from the input array to the HashSet
+        for (int num : nums) {
+            numSet.add(num);
+        }
+
+        // Iterate through the HashSet
+        for (int num : numSet) {
+            // Check if the negation of the current number exists in the HashSet
+            if (numSet.contains(-num)) {
+                // If yes, update maxK to the larger value between maxK and the current number
+                maxK = Math.max(maxK, num);
+            }
+        }
+
+        // Return the maximum k found, or -1 if no such k exists
+        return maxK;
+    }
+}
