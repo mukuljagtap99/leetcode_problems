@@ -1,0 +1,27 @@
+class Solution {
+    public int compareVersion(String version1, String version2) {
+        String[] revs1 = version1.split("\\.");
+        String[] revs2 = version2.split("\\.");
+
+        // Compare revisions until one of the version strings is exhausted
+        int i = 0;
+        while (i < revs1.length || i < revs2.length) {
+            // Get the ith revision of both version strings
+            int rev1 = i < revs1.length ? Integer.parseInt(revs1[i]) : 0;
+            int rev2 = i < revs2.length ? Integer.parseInt(revs2[i]) : 0;
+
+            // Compare revisions
+            if (rev1 < rev2) {
+                return -1;
+            } else if (rev1 > rev2) {
+                return 1;
+            }
+
+            // Move to the next revision
+            i++;
+        }
+
+        // If no difference is found, return 0
+        return 0;
+    }
+}
