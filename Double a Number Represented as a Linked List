@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode doubleIt(ListNode head) {
+        // First, reverse the given linked list to start multiplication from the least significant digit
+        head = reverse(head);
+        // Create a dummy node to simplify result list construction
+        ListNode dummy = new ListNode();
+        ListNode current = dummy; // This will be used to add new nodes to the result list
+        int multiplier = 2; // The value by which we want to multiply each digit
+        int carry = 0; // To hold the carry value that results from multiplication
+      
+        // Traverse the reversed list to multiply each digit
+        while (head != null) {
+            int product = head.val * multiplier + carry; // Multiply the current node's value and add carry
+            carry = product / 10; // Compute carry for the next iteration
+            current.next = new ListNode(product % 10); // Store the single digit result in the new list
+            current = current.next; // Move current pointer forward
+            head = head.next; // Move to the next node in the input list
+        }
+      
+        // If carry remains after processing all digits, add a new node with the carry value
+        if (carry > 0) {
+            current.next = new ListNode(carry);
+        }
+      
+        // Finally, reverse the result list to restore original order and return
+        return reverse(dummy.next);
+    }
+
+    // Helper method to reverse a singly-linked list
+    private ListNode reverse(ListNode head) {
+        ListNode dummy = new ListNode(); // Dummy node to simplify list reversal
+        ListNode current = head; // Pointer to traverse the original list
+        // Iterate over the original list and reverse the links
+        while (current != null) {
+            ListNode next = current.next; // Remember the next node
+            current.next = dummy.next; // Make current node point to the beginning of the new reversed list
+            dummy.next = current; // Update the beginning of the reversed list to be the current node
+            current = next; // Move to the next node in the original list
+        }
+        // Return the reversed list, excluding the dummy node
+        return dummy.next;
+    }
+
+}
