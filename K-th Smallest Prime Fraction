@@ -1,0 +1,28 @@
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        int n = arr.length;
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> 
+            arr[a[0]] * arr[b[1]] - arr[b[0]] * arr[a[1]]
+        );
+
+        // Initialize the min-heap with the first element of each row
+        for (int i = 1; i < n; i++) {
+            minHeap.offer(new int[]{0, i});
+        }
+
+        // Perform k iterations to find the kth smallest fraction
+        for (int i = 0; i < k - 1; i++) {
+            int[] top = minHeap.poll();
+            int p = top[0], q = top[1];
+
+            if (p + 1 < q) {
+                minHeap.offer(new int[]{p + 1, q});
+            }
+        }
+
+        // Extract the kth smallest fraction from the min-heap
+        int[] top = minHeap.poll();
+        return new int[]{arr[top[0]], arr[top[1]]};
+    }
+
+}
