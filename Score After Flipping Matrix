@@ -1,0 +1,48 @@
+class Solution {
+    public int matrixScore(int[][] grid) {
+                int m = grid.length;
+        int n = grid[0].length;
+
+        // Flip rows if necessary to ensure the leftmost bit in each row is 1
+        for (int i = 0; i < m; i++) {
+            if (grid[i][0] == 0) {
+                flipRow(grid, i);
+            }
+        }
+
+        // Flip columns if necessary to ensure the number of 1s in each column is maximized
+        for (int j = 1; j < n; j++) {
+            int ones = 0;
+            for (int i = 0; i < m; i++) {
+                ones += grid[i][j] == 1 ? 1 : 0;
+            }
+            if (ones < m - ones) {
+                flipColumn(grid, j);
+            }
+        }
+
+        // Calculate the score
+        int score = 0;
+        for (int i = 0; i < m; i++) {
+            int rowScore = 0;
+            for (int j = 0; j < n; j++) {
+                rowScore = (rowScore << 1) + grid[i][j];
+            }
+            score += rowScore;
+        }
+
+        return score;
+    }
+
+    private void flipRow(int[][] grid, int row) {
+        for (int j = 0; j < grid[0].length; j++) {
+            grid[row][j] = 1 - grid[row][j];
+        }
+    }
+
+    private void flipColumn(int[][] grid, int col) {
+        for (int i = 0; i < grid.length; i++) {
+            grid[i][col] = 1 - grid[i][col];
+        }
+    }
+}
