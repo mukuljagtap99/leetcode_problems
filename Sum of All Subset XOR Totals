@@ -1,0 +1,20 @@
+class Solution {
+   
+  public int subsetXORSum(int[] nums) {
+        return subsetXORSumHelper(nums, 0, 0);
+    }
+
+    private int subsetXORSumHelper(int[] nums, int index, int currentXOR) {
+        if (index == nums.length) {
+            return currentXOR;
+        }
+        
+        // Calculate sum of subsets including nums[index]
+        int withElement = subsetXORSumHelper(nums, index + 1, currentXOR ^ nums[index]);
+        
+        // Calculate sum of subsets excluding nums[index]
+        int withoutElement = subsetXORSumHelper(nums, index + 1, currentXOR);
+        
+        return withElement + withoutElement;
+    }
+}
