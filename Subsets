@@ -1,0 +1,23 @@
+class Solution {
+    
+        public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        generateSubsets(0, nums, new ArrayList<>(), result);
+        return result;
+    }
+    
+    private void generateSubsets(int index, int[] nums, List<Integer> current, List<List<Integer>> result) {
+        // Add the current subset to the result list
+        result.add(new ArrayList<>(current));
+        
+        // Explore further subsets by including each element one by one
+        for (int i = index; i < nums.length; i++) {
+            // Include the current element in the subset
+            current.add(nums[i]);
+            // Recur for the next element
+            generateSubsets(i + 1, nums, current, result);
+            // Backtrack to remove the current element before moving to the next
+            current.remove(current.size() - 1);
+        }
+    }
+    }
