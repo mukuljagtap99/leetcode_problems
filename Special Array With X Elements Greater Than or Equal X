@@ -1,0 +1,37 @@
+class Solution {
+    public int specialArray(int[] nums) {
+         Arrays.sort(nums);
+        
+        int n = nums.length;
+        
+        // Iterate through possible values of x
+        for (int x = 0; x <= n; x++) {
+            int count = countGreaterOrEqual(nums, x);
+            if (count == x) {
+                return x;
+            }
+        }
+        
+        // If no such x is found, return -1
+        return -1;
+    }
+
+    // Helper method to count elements >= x using binary search
+    private int countGreaterOrEqual(int[] nums, int x) {
+        int left = 0, right = nums.length;
+        
+        // Binary search to find the first index where nums[index] >= x
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] >= x) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        
+        // The count of elements >= x is the number of elements from 'left' to the end of the array
+        return nums.length - left;
+    }
+
+}
