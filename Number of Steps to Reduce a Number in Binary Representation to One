@@ -1,0 +1,39 @@
+class Solution {
+    public int numSteps(String s) {
+                int steps = 0;
+        
+        // We use a StringBuilder for efficient modification of the binary string
+        StringBuilder sb = new StringBuilder(s);
+        
+        // Continue until the string is reduced to "1"
+        while (sb.length() > 1) {
+            int len = sb.length();
+            if (sb.charAt(len - 1) == '0') {
+                // If the last character is '0', the number is even
+                sb.deleteCharAt(len - 1); // divide by 2 (right shift operation)
+            } else {
+                // If the last character is '1', the number is odd
+                // Add 1 to the binary number
+                int carry = 1;
+                for (int i = len - 1; i >= 0; i--) {
+                    if (sb.charAt(i) == '1') {
+                        sb.setCharAt(i, '0');
+                    } else {
+                        sb.setCharAt(i, '1');
+                        carry = 0;
+                        break;
+                    }
+                }
+                // If we have a carry over, it means we have a situation like 111 + 1 which results in 1000
+                if (carry == 1) {
+                    sb.insert(0, '1');
+                }
+            }
+            steps++;
+        }
+        
+        return steps;
+    
+        
+    }
+}
