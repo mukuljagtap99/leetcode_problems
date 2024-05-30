@@ -1,0 +1,25 @@
+class Solution {
+    public int countTriplets(int[] arr) {
+         int n = arr.length;
+        int[] prefixXOR = new int[n + 1];
+        
+        for (int i = 0; i < n; i++) {
+            prefixXOR[i + 1] = prefixXOR[i] ^ arr[i];
+        }
+        
+        Map<Integer, Integer> countMap = new HashMap<>();
+        Map<Integer, Integer> sumMap = new HashMap<>();
+        int result = 0;
+        
+        for (int k = 0; k < n; k++) {
+            if (countMap.containsKey(prefixXOR[k + 1])) {
+                result += countMap.get(prefixXOR[k + 1]) * k - sumMap.get(prefixXOR[k + 1]);
+            }
+            
+            countMap.put(prefixXOR[k], countMap.getOrDefault(prefixXOR[k], 0) + 1);
+            sumMap.put(prefixXOR[k], sumMap.getOrDefault(prefixXOR[k], 0) + k);
+        }
+        
+        return result;
+    }   
+    }
