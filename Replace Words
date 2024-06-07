@@ -1,0 +1,36 @@
+class Solution {
+    public static String replaceWords(List<String> dictionary, String sentence) {
+        // Create a HashSet for quick lookup of roots
+        Set<String> rootSet = new HashSet<>(dictionary);
+
+        // Split the sentence into words
+        String[] words = sentence.split(" ");
+        
+        // Initialize a StringBuilder to build the result sentence
+        StringBuilder result = new StringBuilder();
+
+        // Iterate over each word in the sentence
+        for (String word : words) {
+            String prefix = ""; // The prefix to replace the word
+            for (int i = 1; i <= word.length(); i++) {
+                // Check if the substring from the beginning to i is in the rootSet
+                String sub = word.substring(0, i);
+                if (rootSet.contains(sub)) {
+                    prefix = sub;
+                    break;
+                }
+            }
+            // If we found a valid prefix, use it. Otherwise, use the original word.
+            if (!prefix.isEmpty()) {
+                result.append(prefix);
+            } else {
+                result.append(word);
+            }
+            result.append(" ");
+        }
+
+        // Return the final result, trim to remove the trailing space
+        return result.toString().trim();
+    }
+
+}
