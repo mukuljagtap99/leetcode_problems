@@ -1,0 +1,35 @@
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        
+        HashMap<Integer, Integer> remainderFrequency = new HashMap<>();
+        remainderFrequency.put(0, 1);
+        
+        int prefixSum = 0;
+        int count = 0;
+
+        // Traverse through each number in the array.
+        for (int num : nums) {
+            // Update the prefix sum.
+            prefixSum += num;
+            
+            // Calculate remainder of the prefix sum when divided by k.
+            int remainder = prefixSum % k;
+            
+            // Adjust negative remainders to ensure non-negative.
+            if (remainder < 0) {
+                remainder += k;
+            }
+
+            // If this remainder has been seen before, add the count of its occurrences.
+            if (remainderFrequency.containsKey(remainder)) {
+                count += remainderFrequency.get(remainder);
+            }
+            
+            // Update the frequency of the current remainder.
+            remainderFrequency.put(remainder, remainderFrequency.getOrDefault(remainder, 0) + 1);
+        }
+        
+        return count;
+    }
+    
+}
