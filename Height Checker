@@ -1,0 +1,20 @@
+class Solution {
+    public int heightChecker(int[] heights) {
+        
+int[] expected = Arrays.copyOf(heights, heights.length);
+        Arrays.sort(expected);
+        
+        // Initialize a counter for mismatches.
+        int count = 0;
+
+        // Compare the elements of the heights array with the expected array.
+        for (int i = 0; i < heights.length; i++) {
+            if (heights[i] != expected[i]) {
+                count++;
+            }
+        }
+
+        // Return the count of mismatches.
+        return count;
+    }
+}
